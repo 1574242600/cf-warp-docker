@@ -8,7 +8,7 @@ on:
 
 
 jobs:
-  multiarch-build-debian:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
