@@ -6,11 +6,11 @@ CloudFlare warp in docker
 ## example
 ```
 docker run -it \
---name wgcf_test \
+--name cf_warp \
 --sysctl net.ipv6.conf.all.disable_ipv6=0 \
 --privileged --cap-add net_admin \
 -v /lib/modules:/lib/modules \
--v /tmp/wgcf/config:/var/lib/cloudflare-warp \   
+-v /tmp/cf_warp:/var/lib/cloudflare-warp \   
 1574242600/cf-warp
 ```
 
