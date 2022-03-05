@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -e
 
 DEFAULT_GATEWAY_NETWORK_CARD_NAME=`route  | grep default  | awk '{print $8}' | head -1`
