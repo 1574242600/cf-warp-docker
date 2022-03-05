@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+#我学艺不精，不知道为什么别名无效，希望有大佬指点一下
+# alias warp-cli='warp-cli --accept-tos'
+
 DEFAULT_GATEWAY_NETWORK_CARD_NAME=`route  | grep default  | awk '{print $8}' | head -1`
 DEFAULT_ROUTE_IP=`ifconfig $DEFAULT_GATEWAY_NETWORK_CARD_NAME | grep "inet " | awk '{print $2}' | sed "s/addr://"`
 
@@ -15,25 +18,25 @@ runwgcf() {
 
 
   if [ ! -e "$WARP_PATH/reg.json" ]; then
-    echo "y" | warp-cli register
-    warp-cli set-mode warp
+    warp-cli --accept-tos register
+    warp-cli --accept-tos set-mode warp
   else 
-    echo "y" | warp-cli rotate-keys
+    warp-cli --accept-tos rotate-keys
   fi 
 
 
   case $1 in
     "-4")
-        [[ $(warp-cli get-excluded-routes) =~ "0.0.0.0/0" ]] && warp-cli remove-excluded-route 0.0.0.0/0
-        warp-cli add-excluded-route 0::/0
+        [[ $(warp-cli --accept-tos get-excluded-routes) =~ "0.0.0.0/0" ]] && warp-cli --accept-tos remove-excluded-route 0.0.0.0/0
+        warp-cli --accept-tos add-excluded-route 0::/0
         ;;
     "-6")
-        [[ $(warp-cli get-excluded-routes) =~ "0::/0" ]] && warp-cli remove-excluded-route 0::/0
-        warp-cli add-excluded-route 0.0.0.0/0
+        [[ $(warp-cli --accept-tos get-excluded-routes) =~ "0::/0" ]] && warp-cli --accept-tos remove-excluded-route 0::/0
+        warp-cli --accept-tos add-excluded-route 0.0.0.0/0
         ;;
   esac
 
-  warp-cli connect && ip rule add from $DEFAULT_ROUTE_IP lookup main
+  warp-cli --accept-tos connect && ip rule add from $DEFAULT_ROUTE_IP lookup main
   
   echo 
   case $1 in
@@ -63,7 +66,7 @@ runwgcf() {
 _downwgcf() {
   echo
   echo "clean up"
-  if ! warp-cli disconnect; then
+  if ! warp-cli --accept-tos disconnect; then
     echo "error down"
   fi
   ip rule delete from $DEFAULT_ROUTE_IP lookup main
@@ -77,20 +80,20 @@ _downwgcf() {
 _checkV4() {
   echo "Checking network status, please wait...."
   while ! curl --max-time 2  https://www.cloudflare.com/cdn-cgi/trace/; do
-    warp-cli disconnect
+    warp-cli --accept-tos disconnect
     echo "Sleep 2 and retry again."
     sleep 2
-    warp-cli connect
+    warp-cli --accept-tos connect
   done
 }
 
 _checkV6() {
   echo "Checking network status, please wait...."
   while ! curl --max-time 2 -6 https://www.cloudflare.com/cdn-cgi/trace/; do
-    warp-cli disconnect
+    warp-cli --accept-tos disconnect
     echo "Sleep 2 and retry again."
     sleep 2
-    warp-cli connect
+    warp-cli --accept-tos connect
   done
 }
 
