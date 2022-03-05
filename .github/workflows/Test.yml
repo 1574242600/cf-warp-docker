@@ -27,55 +27,55 @@ jobs:
     - name: Test single container
       run:  |
         docker run --rm -id \
-        --name cf-warp \
+        --name cf_warp \
         --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
         -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
         wg
-        while ! docker logs cf-warp | grep "OK, cf-warp is up"; do
+        while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           echo wait
           sleep 1
         done
-        docker exec -i cf-warp curl ipinfo.io
-        docker exec -i cf-warp curl ipv6.ip.sb
-        docker run --rm   --network container:cf-warp  curlimages/curl curl ipinfo.io
-        docker run --rm   --network container:cf-warp  curlimages/curl curl ipv6.ip.sb
-        docker stop cf-warp
+        docker exec -i cf_warp curl ipinfo.io
+        docker exec -i cf_warp curl ipv6.ip.sb
+        docker run --rm   --network container:cf_warp  curlimages/curl curl ipinfo.io
+        docker run --rm   --network container:cf_warp  curlimages/curl curl ipv6.ip.sb
+        docker stop cf_warp
 
     - name: Test single container V4
       run:  |
         docker run --rm -id \
-        --name cf-warp \
+        --name cf_warp \
         --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
-        -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
+        -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -4
-        while ! docker logs cf-warp | grep "OK, cf-warp is up"; do
+        while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           echo wait
           sleep 1
         done
-        docker exec -i cf-warp curl ipinfo.io
-        docker run --rm   --network container:cf-warp  curlimages/curl curl ipinfo.io
-        docker stop cf-warp
+        docker exec -i cf_warp curl ipinfo.io
+        docker run --rm   --network container:cf_warp  curlimages/curl curl ipinfo.io
+        docker stop cf_warp
 
     - name: Test single container V6
       run:  |
         docker run --rm -id \
-        --name cf-warp \
+        --name cf_warp \
         --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
-        -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
+        -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
-        while ! docker logs cf-warp | grep "OK, cf-warp is up"; do
+        while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           echo wait
           sleep 1
         done
-        docker exec -i cf-warp curl ipv6.ip.sb
-        docker run --rm   --network container:cf-warp  curlimages/curl curl ipv6.ip.sb
-        docker stop cf-warp
+        docker exec -i cf_warp curl ipv6.ip.sb
+        docker run --rm   --network container:cf_warp  curlimages/curl curl ipv6.ip.sb
+        docker stop cf_warp
         
   Ubuntu-HostMode:
     runs-on: ubuntu-latest
@@ -86,50 +86,50 @@ jobs:
     - name: Test single container
       run:  |
         docker run --rm -id \
-        --name cf-warp \
+        --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
-        -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
+        -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg
-        while ! docker logs cf-warp | grep "OK, cf-warp is up"; do
+        while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           echo wait
           sleep 1
         done
         curl ipinfo.io
         curl ipv6.ip.sb
-        docker stop cf-warp
+        docker stop cf_warp
 
 
     - name: Test single container V4
       run:  |
         docker run --rm -id \
-        --name cf-warp \
+        --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
-        -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
+        -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -4
-        while ! docker logs cf-warp | grep "OK, cf-warp is up"; do
+        while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           echo wait
           sleep 1
         done
         curl ipinfo.io
-        docker stop cf-warp
+        docker stop cf_warp
 
 
     - name: Test single container V6
       run:  |
         docker run --rm -id \
-        --name cf-warp \
+        --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
-        -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
+        -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
-        while ! docker logs cf-warp | grep "OK, cf-warp is up"; do
+        while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           echo wait
           sleep 1
         done
         curl ipv6.ip.sb
-        docker stop cf-warp
+        docker stop cf_warp

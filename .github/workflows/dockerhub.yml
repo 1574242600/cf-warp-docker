@@ -20,7 +20,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: 15742424600/cf-warp
+          images: 1574242600/cf-warp
+          tags: |
+            type=raw,value=latest,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
 
       - name: Login to DockerHub
         uses: docker/login-action@v1 
