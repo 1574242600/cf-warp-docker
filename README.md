@@ -1,6 +1,7 @@
 # cf-warp
 CloudFlare warp in docker  
-**这个分支使用 Cloudflare 官方客户端 cf-warp**  
+**这个分支使用 Cloudflare 官方客户端 cf-warp**
+**配置文件不通用**  
 官方客户端目前只有 AMD64 版本  
 
 ## example
