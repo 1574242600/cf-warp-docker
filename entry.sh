@@ -20,6 +20,7 @@ runwgcf() {
   if [ ! -e "$WARP_PATH/reg.json" ]; then
     warp-cli --accept-tos register
     warp-cli --accept-tos set-mode warp
+    warp-cli --accept-tos enable-always-on
   else 
     warp-cli --accept-tos rotate-keys
   fi 
