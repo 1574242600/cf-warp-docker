@@ -37,7 +37,7 @@ runwgcf() {
         ;;
   esac
 
-  warp-cli --accept-tos connect && ip rule add from $DEFAULT_ROUTE_IP lookup main
+  warp-cli --accept-tos connect && ip rule add from $DEFAULT_ROUTE_IP lookup main prio 0
   
   echo 
   case $1 in
