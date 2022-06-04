@@ -11,7 +11,7 @@ RUN apt-get update \
   ca-certificates curl \
   iproute2 net-tools \
   # wrap dependencies
-  systemctl libdbus-1-3 libc6 nftables gnupg2 \
+  systemctl libdbus-1-3 libc6 nftables gnupg2 desktop-file-utils \
   && cd /tmp \
   && curl $WARP_DEB_URL -o warp.deb \
   && echo "$WARP_DEB_SHA256  warp.deb" | sha256sum -c - \
