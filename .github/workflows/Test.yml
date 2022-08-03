@@ -89,6 +89,7 @@ jobs:
         --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
+        --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         -v /lib/modules:/lib/modules \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg
@@ -124,6 +125,7 @@ jobs:
         --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
+        --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         -v /lib/modules:/lib/modules \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
