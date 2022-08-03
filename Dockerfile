@@ -1,8 +1,8 @@
 FROM ubuntu:20.04
 
-ENV WARP_VERSION="2022.4.235-1"
-ENV WARP_DEB_URL="https://pkg.cloudflareclient.com/pool/dists/focal/main/cloudflare_warp_2022_4_235_1_amd64_c71a3ae2e7_amd64.deb"
-ENV WARP_DEB_SHA256="71b86448b8c03c1a06d61f3f5e54ffce3e2b6831cebe77c571fb9600d30224b7"
+ENV WARP_VERSION="2022.7.472-1"
+ENV WARP_DEB_URL="https://pkg.cloudflareclient.com/pool/dists/focal/main/cloudflare_warp_2022_7_472_1_amd64_77aa79eba3_amd64.deb"
+ENV WARP_DEB_SHA256="95b4f7b87d2451b1694af11871f761e639e968a20dc17a2d0f789e3f05c702c6"
 
 COPY entry.sh /entry.sh
 
