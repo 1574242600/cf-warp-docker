@@ -34,6 +34,7 @@ jobs:
         -v $(pwd)/cf-warp:/var/lib/cloudflare-warp \
         wg
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
+          if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
           sleep 1
         done
@@ -53,6 +54,7 @@ jobs:
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -4
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
+          if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
           sleep 1
         done
@@ -70,6 +72,7 @@ jobs:
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
+          if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
           sleep 1
         done
@@ -93,6 +96,7 @@ jobs:
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
+          if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
           sleep 1
         done
@@ -111,6 +115,7 @@ jobs:
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -4
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
+          if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
           sleep 1
         done
@@ -128,6 +133,7 @@ jobs:
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
+          if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
           sleep 1
         done
