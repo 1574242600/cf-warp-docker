@@ -81,7 +81,7 @@ _downwgcf() {
 
 _checkV4() {
   echo "Checking network status, please wait...."
-  while ! curl --max-time 2  https://www.cloudflare.com/cdn-cgi/trace/; do
+  while ! curl -s --max-time 2  https://www.cloudflare.com/cdn-cgi/trace/; do
     warp-cli --accept-tos disconnect
     echo "Sleep 2 and retry again."
     sleep 2
@@ -91,7 +91,7 @@ _checkV4() {
 
 _checkV6() {
   echo "Checking network status, please wait...."
-  while ! curl --max-time 2 -6 https://www.cloudflare.com/cdn-cgi/trace/; do
+  while ! curl -s --max-time 2 -6 https://www.cloudflare.com/cdn-cgi/trace/; do
     warp-cli --accept-tos disconnect
     echo "Sleep 2 and retry again."
     sleep 2
