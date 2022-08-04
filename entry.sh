@@ -9,7 +9,7 @@ DEFAULT_ROUTE_IP=`ifconfig $DEFAULT_GATEWAY_NETWORK_CARD_NAME | grep "inet " | a
 
 #-4|-6
 runwgcf() {
-  trap '_downwgcf' ERR TERM INT
+  trap '_downWarp' ERR TERM INT
   systemctl start warp-svc
 
   WARP_PATH="/var/lib/cloudflare-warp"
@@ -42,17 +42,13 @@ runwgcf() {
   echo 
   case $1 in
     "-4")
-      _checkV4
+      _checkV4 || _downWarp 1
       ;;
     "-6")
-      _checkV6
+      _checkV6 || _downWarp 1
       ;;
     *)
-      echo "ipv4: "
-      _checkV4
-      echo 
-      echo "ipv6: "
-      _checkV6
+      (_checkV4 && echo && _checkV6) || _downWarp 1
       ;;
   esac
 
@@ -64,15 +60,18 @@ runwgcf() {
 }
 
 
-_downwgcf() {
+_downWarp() {
   echo
   echo "clean up"
+
   if ! warp-cli --accept-tos disconnect; then
     echo "error down"
   fi
+
   ip rule delete from $DEFAULT_ROUTE_IP lookup main
+
   echo "clean up done"
-  exit 0
+  exit $1;
 }
 
 _checkV4() {
@@ -84,12 +83,19 @@ _checkV6() {
 }
 
 _check() {
-  echo "Checking network status, please wait...."
+  echo "Checking ipv$1 network status, please wait...."; echo;
+
+  errorCount=0;
   while ! curl -s$1 --max-time 2  https://www.cloudflare.com/cdn-cgi/trace/; do
-    warp-cli --accept-tos disconnect
-    echo "Sleep 3 and retry again."
+    if [[ $errorCount = 3 ]]; then return 1; fi;
+    
+    warp-cli --accept-tos disconnect;
+
+    echo "Sleep 3 and retry again. count: $((errorCount + 1))/3";
     sleep 3;
-    connectWarp
+    
+    connectWarp;
+    let errorCount++;
   done
 }
 
