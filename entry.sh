@@ -14,9 +14,6 @@ runwgcf() {
 
   WARP_PATH="/var/lib/cloudflare-warp"
 
-
-
-
   if [ ! -e "$WARP_PATH/reg.json" ]; then
     warp-cli --accept-tos register
     warp-cli --accept-tos set-mode warp
@@ -29,15 +26,19 @@ runwgcf() {
   case $1 in
     "-4")
         [[ $(warp-cli --accept-tos get-excluded-routes) =~ "0.0.0.0/0" ]] && warp-cli --accept-tos remove-excluded-route 0.0.0.0/0
-        warp-cli --accept-tos add-excluded-route 0::/0
+        warp-cli --accept-tos add-excluded-route ::/0
         ;;
     "-6")
         [[ $(warp-cli --accept-tos get-excluded-routes) =~ "::/0" ]] && warp-cli --accept-tos remove-excluded-route ::/0
         warp-cli --accept-tos add-excluded-route 0.0.0.0/0
         ;;
+      *) 
+        warp-cli --accept-tos remove-excluded-route 0.0.0.0/0
+        warp-cli --accept-tos remove-excluded-route ::/0
   esac
 
-  connectWarp && ip rule add from $DEFAULT_ROUTE_IP lookup main prio 0
+  ip rule add from $DEFAULT_ROUTE_IP lookup main prio 0
+  connectWarp
   
   echo 
   case $1 in
