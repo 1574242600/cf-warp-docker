@@ -93,8 +93,10 @@ jobs:
         --net=host \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
+        -v /etc/resolv.conf:/etc/resolv.conf \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg
+      
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
@@ -112,8 +114,10 @@ jobs:
         --net=host \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
+        -v /etc/resolv.conf:/etc/resolv.conf \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -4
+
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
@@ -130,8 +134,10 @@ jobs:
         --net=host \
         --privileged --cap-add net_admin \
         -v /lib/modules:/lib/modules \
+        -v /etc/resolv.conf:/etc/resolv.conf \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
+        
         while ! docker logs cf_warp | grep "OK, cf-warp is up"; do
           if [[ $(docker logs cf_warp) =~ "No such container" ]]; then exit 1; fi;
           echo wait
