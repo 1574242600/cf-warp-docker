@@ -37,8 +37,7 @@ runwgcf() {
         ;;
   esac
 
-  warp-cli --accept-tos connect && ip rule add from $DEFAULT_ROUTE_IP lookup main prio 0
-  sleep 3;
+  connectWarp && ip rule add from $DEFAULT_ROUTE_IP lookup main prio 0
   
   echo 
   case $1 in
@@ -76,30 +75,28 @@ _downwgcf() {
   exit 0
 }
 
-
-
-
 _checkV4() {
-  echo "Checking network status, please wait...."
-  while ! curl -s --max-time 2  https://www.cloudflare.com/cdn-cgi/trace/; do
-    warp-cli --accept-tos disconnect
-    echo "Sleep 2 and retry again."
-    sleep 2
-    warp-cli --accept-tos connect
-  done
+  _check 4
 }
 
 _checkV6() {
+  _check 6
+}
+
+_check() {
   echo "Checking network status, please wait...."
-  while ! curl -s --max-time 2 -6 https://www.cloudflare.com/cdn-cgi/trace/; do
+  while ! curl -s$1 --max-time 2  https://www.cloudflare.com/cdn-cgi/trace/; do
     warp-cli --accept-tos disconnect
-    echo "Sleep 2 and retry again."
-    sleep 2
-    warp-cli --accept-tos connect
+    echo "Sleep 3 and retry again."
+    sleep 3;
+    connectWarp
   done
 }
 
-
+connectWarp() {
+  warp-cli --accept-tos connect;
+  sleep 3;
+}
 
 if [ -z "$@" ] || [[ "$1" = -* ]]; then
   runwgcf "$@"
