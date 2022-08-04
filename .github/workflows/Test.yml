@@ -37,10 +37,10 @@ jobs:
           echo wait
           sleep 1
         done
-        docker exec -i cf_warp curl ipinfo.io
-        docker exec -i cf_warp curl ipv6.ip.sb
-        docker run --rm   --network container:cf_warp  curlimages/curl curl ipinfo.io
-        docker run --rm   --network container:cf_warp  curlimages/curl curl ipv6.ip.sb
+        docker exec -i cf_warp curl https://www.cloudflare.com/cdn-cgi/trace/ -4
+        docker exec -i cf_warp curl https://www.cloudflare.com/cdn-cgi/trace/ -6
+        docker run --rm --network container:cf_warp  curlimages/curl curl https://www.cloudflare.com/cdn-cgi/trace/ -4
+        docker run --rm --network container:cf_warp  curlimages/curl curl https://www.cloudflare.com/cdn-cgi/trace/ -6
         docker stop cf_warp
 
     - name: Test single container V4
@@ -56,8 +56,8 @@ jobs:
           echo wait
           sleep 1
         done
-        docker exec -i cf_warp curl ipinfo.io
-        docker run --rm   --network container:cf_warp  curlimages/curl curl ipinfo.io
+        docker exec -i cf_warp curl https://www.cloudflare.com/cdn-cgi/trace/ -4
+        docker run --rm   --network container:cf_warp  curlimages/curl curl https://www.cloudflare.com/cdn-cgi/trace/ -4
         docker stop cf_warp
 
     - name: Test single container V6
@@ -73,8 +73,8 @@ jobs:
           echo wait
           sleep 1
         done
-        docker exec -i cf_warp curl ipv6.ip.sb
-        docker run --rm   --network container:cf_warp  curlimages/curl curl ipv6.ip.sb
+        docker exec -i cf_warp curl https://www.cloudflare.com/cdn-cgi/trace/ -6
+        docker run --rm   --network container:cf_warp  curlimages/curl curl https://www.cloudflare.com/cdn-cgi/trace/ -6
         docker stop cf_warp
         
   Ubuntu-HostMode:
@@ -89,7 +89,6 @@ jobs:
         --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
-        --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         -v /lib/modules:/lib/modules \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg
@@ -97,8 +96,8 @@ jobs:
           echo wait
           sleep 1
         done
-        curl ipinfo.io
-        curl ipv6.ip.sb
+        curl https://www.cloudflare.com/cdn-cgi/trace/ -4
+        curl https://www.cloudflare.com/cdn-cgi/trace/ -6
         docker stop cf_warp
 
 
@@ -115,7 +114,7 @@ jobs:
           echo wait
           sleep 1
         done
-        curl ipinfo.io
+        curl https://www.cloudflare.com/cdn-cgi/trace/ -4
         docker stop cf_warp
 
 
@@ -125,7 +124,6 @@ jobs:
         --name cf_warp \
         --net=host \
         --privileged --cap-add net_admin \
-        --sysctl net.ipv6.conf.all.disable_ipv6=0 \
         -v /lib/modules:/lib/modules \
         -v $(pwd)/cf_warp:/var/lib/cloudflare-warp \
         wg -6
@@ -133,5 +131,5 @@ jobs:
           echo wait
           sleep 1
         done
-        curl ipv6.ip.sb
+        curl https://www.cloudflare.com/cdn-cgi/trace/ -6
         docker stop cf_warp
