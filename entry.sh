@@ -32,7 +32,7 @@ runwgcf() {
         warp-cli --accept-tos add-excluded-route 0::/0
         ;;
     "-6")
-        [[ $(warp-cli --accept-tos get-excluded-routes) =~ "0::/0" ]] && warp-cli --accept-tos remove-excluded-route 0::/0
+        [[ $(warp-cli --accept-tos get-excluded-routes) =~ "::/0" ]] && warp-cli --accept-tos remove-excluded-route ::/0
         warp-cli --accept-tos add-excluded-route 0.0.0.0/0
         ;;
   esac
