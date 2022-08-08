@@ -9,7 +9,7 @@ COPY entry.sh /entry.sh
 RUN apt-get update \
   && apt-get install -y \
   ca-certificates curl \
-  iproute2 net-tools \
+  iproute2 \
   # wrap dependencies
   systemctl libdbus-1-3 libc6 nftables gnupg2 desktop-file-utils \
   && cd /tmp \
