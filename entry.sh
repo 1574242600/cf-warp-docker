@@ -4,8 +4,8 @@ set -e
 #我学艺不精，不知道为什么别名无效，希望有大佬指点一下
 # alias warp-cli='warp-cli --accept-tos'
 
-DEFAULT_GATEWAY_NETWORK_CARD_NAME=`route  | grep default  | awk '{print $8}' | head -1`
-DEFAULT_ROUTE_IP=`ifconfig $DEFAULT_GATEWAY_NETWORK_CARD_NAME | grep "inet " | awk '{print $2}' | sed "s/addr://"`
+DEFAULT_GATEWAY_NETWORK_CARD_NAME=`ip route | grep default | awk '{print $5}'`
+DEFAULT_ROUTE_IP=`ip addr show $DEFAULT_GATEWAY_NETWORK_CARD_NAME | grep "inet " | awk '{print $2}' | sed "s/\/.*//"``
 
 #-4|-6
 runwgcf() {
