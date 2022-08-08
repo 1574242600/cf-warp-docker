@@ -5,7 +5,7 @@ set -e
 # alias warp-cli='warp-cli --accept-tos'
 
 DEFAULT_GATEWAY_NETWORK_CARD_NAME=`ip route | grep default | awk '{print $5}'`
-DEFAULT_ROUTE_IP=`ip addr show $DEFAULT_GATEWAY_NETWORK_CARD_NAME | grep "inet " | awk '{print $2}' | sed "s/\/.*//"``
+DEFAULT_ROUTE_IP=`ip addr show $DEFAULT_GATEWAY_NETWORK_CARD_NAME | grep "inet " | awk '{print $2}' | sed "s/\/.*//"`
 
 #-4|-6
 runwgcf() {
