@@ -3,7 +3,7 @@ name: DockerHub
 on:
   push:
     branches:
-      - '*'
+      - main
     paths:
       - '*'
       - '!*.md'
