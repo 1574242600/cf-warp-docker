@@ -39,7 +39,9 @@ runwgcf() {
 
   ip rule add from $DEFAULT_ROUTE_IP lookup main prio 0
   connectWarp
-  
+  nft add chain inet cloudflare-warp output '{ policy accept; }'
+  nft add chain inet cloudflare-warp input '{ policy accept; }'
+
   echo 
   case $1 in
     "-4")
