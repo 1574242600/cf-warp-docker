@@ -1,6 +1,8 @@
 name: DockerHub
 
 on:
+  release:
+    types: [published]
   push:
     branches:
       - main
